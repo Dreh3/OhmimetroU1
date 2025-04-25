@@ -21,7 +21,7 @@ PIO pio = pio0;
 int sm =0;
 
 int R_conhecido = 10000;   // Resistor de 10k ohm
-float R_x = 2700;           // Resistor desconhecido
+float R_x = 82000;           // Resistor desconhecido
 float ADC_VREF = 3.31;     // Tensão de referência do ADC
 int ADC_RESOLUTION = 4095; // Resolução do ADC (12 bits)
 uint indice_tabela = 56;
@@ -37,7 +37,7 @@ char tabela_comercial[57][6] = {" 510 "," 560 "," 620 "," 680 "," 750 "," 820 ",
                                 " 30 k"," 33 k"," 36 k"," 39k"," 43 k"," 47 k"," 51 k"," 56 k"," 62 k",
                                 " 68 k"," 75 k"," 82 k"," 91 k","100 k"," ---"};
 
-char tabela_cores[10][9] = {"Preto","Marrom","Vermelho","Laranja","Amarelo","Verde","Azul","Violeta","Branco"};
+char tabela_cores[10][10] = {"Preto","Marrom","Vermelho","Laranja","Amarelo","Verde","Azul","Violeta","Cinza","Branco"};
 
 uint identificar_tolerancia(){ //Retorna o valor encontrado
 
@@ -87,14 +87,15 @@ void encontrar_faixas(uint Rx_int){
   //printf("%d\n",Rx_int);
   sprintf(valor_Rx, "%d", Rx_int); //converte R_x em string
 
-  ncasa = strlen(valor_Rx)-1; //Armazena a informação do número de casas
-  
+  ncasa = strlen(valor_Rx); //Armazena a informação do número de casas
+  printf("\nncasa - %d",ncasa);
   //Encontrando faixa 3
   if(ncasa < 3){
     faixa3=0;
   }else{
-    faixa3 = ncasa-1;
+    faixa3 = ncasa-2;
   };
+
 
   if(ncasa==1){
     faixa1=0;
@@ -105,7 +106,7 @@ void encontrar_faixas(uint Rx_int){
     //Encontrando faixa 2
     faixa2 = valor_Rx[1] - 48;
   };
-  
+  printf("\nFaixa 1 - %d",faixa1);
   printf("\nCódigo de cores:\n\t1º faixa: %s - 2º faixa: %s - 3º faixa: %s",tabela_cores[faixa1],tabela_cores[faixa2],tabela_cores[faixa3]); //Remover essa linha
 
 };
