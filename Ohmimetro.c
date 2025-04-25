@@ -21,7 +21,7 @@ PIO pio = pio0;
 int sm =0;
 
 int R_conhecido = 10000;   // Resistor de 10k ohm
-float R_x = 82000;           // Resistor desconhecido
+float R_x = 400;           // Resistor desconhecido
 float ADC_VREF = 3.31;     // Tensão de referência do ADC
 int ADC_RESOLUTION = 4095; // Resolução do ADC (12 bits)
 uint indice_tabela = 56;
@@ -37,7 +37,7 @@ char tabela_comercial[57][6] = {" 510 "," 560 "," 620 "," 680 "," 750 "," 820 ",
                                 " 30 k"," 33 k"," 36 k"," 39k"," 43 k"," 47 k"," 51 k"," 56 k"," 62 k",
                                 " 68 k"," 75 k"," 82 k"," 91 k","100 k"," ---"};
 
-char tabela_cores[10][10] = {"Preto","Marrom","Vermelho","Laranja","Amarelo","Verde","Azul","Violeta","Cinza","Branco"};
+char tabela_cores[13][10] = {"Preto","Marrom","Vermelho","Laranja","Amarelo","Verde","Azul","Violeta","Cinza","Branco","diferente","do valor","comercial"};
 
 uint identificar_tolerancia(){ //Retorna o valor encontrado
 
@@ -71,7 +71,7 @@ uint identificar_tolerancia(){ //Retorna o valor encontrado
     indice_tabela=56;  
   };
 
-  printf("\nValor comercial encontrado: %d\n",valor_comercial);
+  printf("\nValor comercial encontrado: %d",valor_comercial);
 
   return valor_comercial;
   
@@ -88,25 +88,31 @@ void encontrar_faixas(uint Rx_int){
   sprintf(valor_Rx, "%d", Rx_int); //converte R_x em string
 
   ncasa = strlen(valor_Rx); //Armazena a informação do número de casas
-  printf("\nncasa - %d",ncasa);
-  //Encontrando faixa 3
-  if(ncasa < 3){
-    faixa3=0;
+
+  if(Rx_int==0){
+    faixa1=10;
+    faixa2=11;
+    faixa3=12;
   }else{
-    faixa3 = ncasa-2;
-  };
+    //Encontrando faixa 3
+    if(ncasa < 3){
+      faixa3=0;
+    }else{
+      faixa3 = ncasa-2;
+    };
 
 
-  if(ncasa==1){
-    faixa1=0;
-    faixa2=valor_Rx[0]-48;
-  }else{
-    //Encontrando faixa 1
-    faixa1 = valor_Rx[0] - 48; //Converter o valor de char para int
-    //Encontrando faixa 2
-    faixa2 = valor_Rx[1] - 48;
+    if(ncasa==1){
+      faixa1=0;
+      faixa2=valor_Rx[0]-48;
+    }else{
+      //Encontrando faixa 1
+      faixa1 = valor_Rx[0] - 48; //Converter o valor de char para int
+      //Encontrando faixa 2
+      faixa2 = valor_Rx[1] - 48;
+    };
   };
-  printf("\nFaixa 1 - %d",faixa1);
+  
   printf("\nCódigo de cores:\n\t1º faixa: %s - 2º faixa: %s - 3º faixa: %s",tabela_cores[faixa1],tabela_cores[faixa2],tabela_cores[faixa3]); //Remover essa linha
 
 };
@@ -158,7 +164,7 @@ int main()
 
     // Fórmula simplificada: R_x = R_conhecido * ADC_encontrado /(ADC_RESOLUTION - adc_encontrado)
     R_x = (R_conhecido * media) / (ADC_RESOLUTION - media);
-      
+    printf("\nValor encontrado pelo ohmimetro: %f",R_x);
     //sprintf(str_x, "%1.0f", media); // Converte o inteiro em string
     //sprintf(str_y, "%1.0f", R_x);   // Converte o float em string
 
