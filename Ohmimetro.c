@@ -21,18 +21,21 @@ PIO pio = pio0;
 int sm =0;
 
 int R_conhecido = 10000;   // Resistor de 10k ohm
-float R_x = 1899.3;           // Resistor desconhecido
+float R_x = 2700;           // Resistor desconhecido
 float ADC_VREF = 3.31;     // Tensão de referência do ADC
 int ADC_RESOLUTION = 4095; // Resolução do ADC (12 bits)
-uint indice_tabela = 0;
+uint indice_tabela = 56;
+uint faixa1=0; //Ordem: 0 - preto, 1 - marrom, 2 - vermelho, 3 - laranja .....
+uint faixa2=0;
+uint faixa3=0;
 
-char tabela_comercial[57][6] = {"510 ","560 ","620 ","680 ","750 ","820 ","910 ","1 k","1.1 k",
+char tabela_comercial[57][6] = {" 510 "," 560 "," 620 "," 680 "," 750 "," 820 "," 910 ","  1 k","1.1 k",
                                 "1.2 k","1.3 k","1.5 k","1.6 k","1.8 k","2.0 k","2.2 k","2.4 k",
                                 "2.7 k","3.0 k","3.3 k","3.6 k","3.9 k","4.3 k","4.7 k","5.1 k",
-                                "5.6 k","6.2 k","6.8 k","7.5 k","8.2 k","9.1 k","10 k","11 k",
-                                "12 k","13 k","15 k","16 k","18 k","20 k","22 k","24 k","27 k",
-                                "30 k","33 k","36 k","39k","43 k","47 k","51 k","56 k","62 k",
-                                "68 k","75 k","82 k","91 k","100 k","---"};
+                                "5.6 k","6.2 k","6.8 k","7.5 k","8.2 k","9.1 k"," 10 k"," 11 k",
+                                " 12 k"," 13 k"," 15 k"," 16 k"," 18 k"," 20 k"," 22 k"," 24 k"," 27 k",
+                                " 30 k"," 33 k"," 36 k"," 39k"," 43 k"," 47 k"," 51 k"," 56 k"," 62 k",
+                                " 68 k"," 75 k"," 82 k"," 91 k","100 k"," ---"};
 
 char tabela_cores[10][9] = {"Preto","Marrom","Vermelho","Laranja","Amarelo","Verde","Azul","Violeta","Branco"};
 
@@ -79,9 +82,6 @@ void encontrar_faixas(uint Rx_int){
   //MODIFICAÇÃO
   char valor_Rx[9]; //Buffer para armazenar o Rx e identificar os valores separadamente
   int ncasa=0; //vai armazenar a quatidade de casas o número possui
-  int faixa1=0; //Ordem: 0 - preto, 1 - marrom, 2 - vermelho, 3 - laranja .....
-  int faixa2=0;
-  int faixa3=0;
   
   //Código para descobrir as faixas de valores
   //printf("%d\n",Rx_int);
@@ -96,13 +96,12 @@ void encontrar_faixas(uint Rx_int){
     faixa3 = ncasa-1;
   };
 
-  if(ncasa=1){
+  if(ncasa==1){
     faixa1=0;
     faixa2=valor_Rx[0]-48;
   }else{
     //Encontrando faixa 1
     faixa1 = valor_Rx[0] - 48; //Converter o valor de char para int
-
     //Encontrando faixa 2
     faixa2 = valor_Rx[1] - 48;
   };
@@ -159,8 +158,8 @@ int main()
     // Fórmula simplificada: R_x = R_conhecido * ADC_encontrado /(ADC_RESOLUTION - adc_encontrado)
     R_x = (R_conhecido * media) / (ADC_RESOLUTION - media);
       
-    sprintf(str_x, "%1.0f", media); // Converte o inteiro em string
-    sprintf(str_y, "%1.0f", R_x);   // Converte o float em string
+    //sprintf(str_x, "%1.0f", media); // Converte o inteiro em string
+    //sprintf(str_y, "%1.0f", R_x);   // Converte o float em string
 
     // cor = !cor;
     //  Atualiza o conteúdo do display com animações
@@ -171,14 +170,16 @@ int main()
     ssd1306_line(&ssd, 3, 40, 123, 40, cor);           // Desenha uma linha
     ssd1306_line(&ssd, 3, 52, 123, 52, cor);           // Desenha uma linha
     ssd1306_draw_string(&ssd, "OHMIMETRO", 28, 6); // Desenha uma string
-    //ssd1306_draw_string(&ssd, "EMBARCATECH", 20, 16);  // Desenha uma string
     ssd1306_draw_string(&ssd, "Res.:", 10, 19);  // Desenha uma string
-    ssd1306_draw_string(&ssd, "100k ohm", 55, 19);  // Desenha uma string
-    ssd1306_draw_string(&ssd, "preto", 13, 32);          // Desenha uma string
-    ssd1306_draw_string(&ssd, " ", 50, 41);    // Desenha uma string
+    ssd1306_draw_string(&ssd, tabela_comercial[indice_tabela], 55, 19);  // Desenha uma string
+    ssd1306_draw_string(&ssd, "ohm", 95, 19);  // Desenha uma string
+    ssd1306_draw_string(&ssd, "1", 12, 31);          // Desenha uma string
+    ssd1306_draw_string(&ssd, tabela_cores[faixa1], 38, 31);
+    ssd1306_draw_string(&ssd, "2", 12, 43);          // Desenha uma string
+    ssd1306_draw_string(&ssd, tabela_cores[faixa2], 38, 43); 
+    ssd1306_draw_string(&ssd, "3", 12, 54);          // Desenha uma string
+    ssd1306_draw_string(&ssd, tabela_cores[faixa3], 38, 54);
     ssd1306_line(&ssd, 28, 29, 28, 62, cor);           // Desenha uma linha vertical
-    //ssd1306_draw_string(&ssd, str_x, 8, 52);           // Desenha uma string
-    //ssd1306_draw_string(&ssd, str_y, 59, 52);          // Desenha uma string
     ssd1306_send_data(&ssd);                           // Atualiza o display
     sleep_ms(700);
   };
