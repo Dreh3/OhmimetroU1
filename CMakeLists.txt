@@ -35,7 +35,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(Ohmimetro Ohmimetro.c )
+add_executable(Ohmimetro Ohmimetro.c lib/ssd1306.c)
 
 pico_set_program_name(Ohmimetro "Ohmimetro")
 pico_set_program_version(Ohmimetro "0.1")
@@ -49,6 +49,7 @@ target_link_libraries(Ohmimetro
         pico_stdlib
         hardware_i2c
         hardware_adc
+        hardware_pio
         )
 
 # Add the standard include files to the build
@@ -56,6 +57,8 @@ target_include_directories(Ohmimetro PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
 )
 
+#Gerar arquivo cabeçalho pio
+pico_generate_pio_header(${CMAKE_PROJECT_NAME} ${CMAKE_CURRENT_LIST_DIR}/pio_matrix.pio)
 
 pico_add_extra_outputs(Ohmimetro)
 
