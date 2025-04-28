@@ -20,8 +20,8 @@
 PIO pio = pio0;
 int sm =0;
 
-int R_conhecido = 10000;   // Resistor de 10k ohm
-float R_x = 400;           // Resistor desconhecido
+int R_conhecido = 10080;   // Resistor de 10k ohm
+float R_x = 0.0;           // Resistor desconhecido
 float ADC_VREF = 3.31;     // Tensão de referência do ADC
 int ADC_RESOLUTION = 4095; // Resolução do ADC (12 bits)
 uint indice_tabela = 56;
@@ -146,9 +146,7 @@ int main()
   ssd1306_fill(&ssd, false);
   ssd1306_send_data(&ssd);
 
-  //Joga essas funções no loop
-  valor_comercial = identificar_tolerancia();
-  encontrar_faixas(valor_comercial);
+  
 
   while (true)
   {
@@ -168,6 +166,9 @@ int main()
     //sprintf(str_x, "%1.0f", media); // Converte o inteiro em string
     //sprintf(str_y, "%1.0f", R_x);   // Converte o float em string
 
+    //Joga essas funções no loop
+    valor_comercial = identificar_tolerancia();
+    encontrar_faixas(valor_comercial);
     // cor = !cor;
     //  Atualiza o conteúdo do display com animações
     ssd1306_fill(&ssd, !cor);                          // Limpa o display
