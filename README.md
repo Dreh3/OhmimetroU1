@@ -24,7 +24,7 @@ __Uma breve explicação do desenvolvimento e resultados obtidos podem ser visto
 
 O projeto permite identificar o valor de um resistor desconhecido, com base em um resistor de referência, uma tensão fornecida e as leituras do conversor analógico digital. Assim, tenho uma resistência conhecida e a tensão total que passa pelos resistores, utilizando-se a fórmula de dividão de tensão, o código consegue calcular o valor do resistor desconhecido a apartir da tensão lida sobre ele. A relação entre os valores do conversor e a tensão é a de que a tensão máxima de 3.3V corresponde ao valor máximo de 4095. Assim, outras leituras podem ter um valor correspondente de tensão relacionado. A fórmula usado no código foi:
 <div align="center">
-  <img src="![image](https://github.com/user-attachments/assets/02ecd4f8-bcb9-45da-ab69-4dbb359e1117)" alt="line ending" width="300"/>
+  <img src="imagens/Formula.PNG" width="300"/>
 </div>
 A monatagem do ohmímetro foi feita com os pinos GPIO 28, GND  e 3.3V, presentes nabit DogLab, com os resistores dispostos em série. A alimentação de 3.3V foi conectada à ponta de um resistor, e o GND à outra extremidade da série. Já o GPIO 38 foi conectado no encontro entre os dois resistores, paa assim medir a tesnão em cima do resistor desconhecido. A configuração das conexões pode ser vista abaixo.
 <div align="center">
