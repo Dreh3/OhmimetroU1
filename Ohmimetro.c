@@ -11,7 +11,6 @@
 #define I2C_SCL 15
 #define endereco 0x3C
 #define ADC_PIN 28 // GPIO para o ohmimetro
-#define Botao_A 5  // GPIO para botão A
 
 //Arquivo .pio
 #include "pio_matrix.pio.h"
@@ -219,7 +218,7 @@ int main()
   gpio_set_dir(botaoB, GPIO_IN);
   gpio_pull_up(botaoB);
   gpio_set_irq_enabled_with_callback(botaoB, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler);
-  
+
   //Configurações para matriz de leds
   uint offset = pio_add_program(pio, &pio_matrix_program);
   pio_matrix_program_init(pio, sm, offset, MatrizLeds, 800000, IS_RGBW);
@@ -254,6 +253,7 @@ int main()
     float media = soma / 500.0f;        //Coleta uma quantidade de dados grande para maior precisão
 
     R_x = (R_conhecido * media) / (ADC_RESOLUTION - media);   //Fórmula para descobrir o valor desconhecido
+    
     printf("\nValor encontrado pelo ohmimetro: %f",R_x);      //Mostra o valor encontrado
     sprintf(str_y, "%1.0f", R_x);                             // Converte o float em string para mostrar no display
     
