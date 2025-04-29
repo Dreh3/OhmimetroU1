@@ -1,3 +1,12 @@
+//Código desenvolvido por Andressa Sousa Fonseca
+
+/*
+*O presnte projeto permite identificar o valor de um resistor desconhecido com base em um de referência e as leituras
+*da porta GPIO 28, com valores do conversor analógico digital. Com o valor do resistor identificado, a matriz de leds 
+*exibe as faixas correspondente. Além disso, o display apresenta o valor comercial identificado, as cores do resistor
+*e o valor bruto calculado a partir do adc.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
