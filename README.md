@@ -28,7 +28,7 @@ O projeto permite identificar o valor de um resistor desconhecido, com base em u
 </div>
 A monatagem do ohmímetro foi feita com os pinos GPIO 28, GND  e 3.3V, presentes nabit DogLab, com os resistores dispostos em série. A alimentação de 3.3V foi conectada à ponta de um resistor, e o GND à outra extremidade da série. Já o GPIO 38 foi conectado no encontro entre os dois resistores, paa assim medir a tesnão em cima do resistor desconhecido. A configuração das conexões pode ser vista abaixo.
 <div align="center">
-  <img src="![image](https://github.com/user-attachments/assets/a59dfc9b-d5f4-403e-8d4c-dbc861c57757)" alt="line ending" width="300"/>
+  <img src="imagens/Ohmimetro2.jpeg" alt="line ending" width="300"/>
 </div>
 
 ### 2. Identifica o Valor Comercial
@@ -36,6 +36,4 @@ Os valores encontrados no cálculo são tratados para identificar o valor comerc
 
 ### 2. Código de Cores
 Com base no valor comercial identificado, o display e a matriz de leds informam a cores do resistor identificado. O display apresenta o nome da cor de cada faixa e a matriz de leds exibe um figura retangular, símbolo dos resistores, com três cores internas que representam as três faixas.
-<div align="center">
-  <img src="![image](https://github.com/user-attachments/assets/b4261f0f-c201-4c60-b070-b55b07412163)" alt="line ending" width="300"/>
-</div>
+
